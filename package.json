@@ -2,7 +2,7 @@
   "name": "unit4-budget-dashboard",
   "version": "1.0.0",
   "description": "Unit4 Planner Budget Dashboard",
-  "engines": { "node": "18.x" },
+  "engines": { "node": "24.x" },
   "dependencies": {
     "node-fetch": "^2.7.0"
   }
