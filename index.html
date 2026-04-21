@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit4 Budget Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#534AB7;--purple-light:#EEEDFE;--purple-mid:#7F77DD;
+  --teal:#1D9E75;--teal-light:#E1F5EE;
+  --amber:#BA7517;--amber-light:#FAEEDA;
+  --red:#A32D2D;--red-light:#FCEBEB;
+  --gray-50:#F1EFE8;--gray-100:#D3D1C7;--gray-400:#888780;--gray-600:#5F5E5A;
+  --text:#1a1a18;--text-muted:#5F5E5A;--text-hint:#888780;
+  --border:#e2e0d8;--border-strong:#c8c6bc;
+  --bg:#ffffff;--bg-surface:#F7F6F2;--bg-card:#ffffff;
+  --radius:8px;--radius-lg:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:var(--text);background:var(--bg-surface);min-height:100vh}
+
+/* TOPBAR */
+.topbar{height:52px;background:var(--bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;background:var(--purple);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo svg{width:16px;height:16px}
+.app-name{font-size:15px;font-weight:500}
+.app-env{font-size:11px;padding:2px 7px;background:var(--amber-light);color:var(--amber);border-radius:10px;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.user-badge{font-size:12px;color:var(--text-muted);padding:4px 10px;background:var(--bg-surface);border:0.5px solid var(--border);border-radius:20px}
+.btn-sm{padding:5px 12px;border:0.5px solid var(--border-strong);border-radius:6px;background:transparent;cursor:pointer;font-size:12px;color:var(--text-muted)}
+.btn-sm:hover{background:var(--bg-surface)}
+
+/* LOGIN */
+.login-overlay{position:fixed;inset:0;background:var(--bg-surface);display:flex;align-items:center;justify-content:center;z-index:200}
+.login-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:32px;width:400px;display:flex;flex-direction:column;gap:18px}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.login-logo .logo{width:36px;height:36px}
+.login-logo span{font-size:17px;font-weight:500}
+.login-sub{font-size:13px;color:var(--text-muted)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+.field input{padding:9px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:14px;color:var(--text);outline:none;background:var(--bg)}
+.field input:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-light)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-primary{padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-primary:hover{background:#3C3489}
+.btn-primary:disabled{background:var(--gray-100);cursor:default;color:var(--gray-400)}
+.login-err{font-size:12px;color:var(--red);background:var(--red-light);border:0.5px solid #F09595;border-radius:6px;padding:8px 12px;display:none}
+.login-err.show{display:block}
+
+/* MAIN LAYOUT */
+.main{display:none;flex-direction:column;gap:0}
+.main.visible{display:flex}
+
+/* SEARCH BAR */
+.search-section{background:var(--bg);border-bottom:0.5px solid var(--border);padding:14px 24px}
+.search-row{display:flex;gap:10px;align-items:flex-end;max-width:700px}
+.search-row .field{flex:1}
+.search-row .field input{font-size:15px;padding:9px 14px}
+.btn-search{padding:9px 20px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;height:40px}
+.btn-search:hover{background:#3C3489}
+.btn-search:disabled{background:var(--gray-100);cursor:default;color:var(--gray-400)}
+.version-filter{display:flex;align-items:center;gap:8px;margin-top:10px}
+.version-filter label{font-size:12px;color:var(--text-muted)}
+.version-filter select{padding:5px 10px;border:0.5px solid var(--border-strong);border-radius:6px;font-size:13px;color:var(--text);background:var(--bg)}
+
+/* CONTENT */
+.content{padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+
+/* PROJECT HEADER */
+.proj-header{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.proj-title{font-size:16px;font-weight:500}
+.proj-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
+.proj-badges{display:flex;gap:8px}
+.badge{font-size:11px;padding:3px 9px;border-radius:10px;font-weight:500}
+.badge-purple{background:var(--purple-light);color:#3C3489}
+.badge-teal{background:var(--teal-light);color:#085041}
+.badge-amber{background:var(--amber-light);color:#633806}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat-card{background:var(--bg-surface);border-radius:var(--radius);padding:14px 16px}
+.stat-label{font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.stat-value{font-size:22px;font-weight:500;line-height:1}
+.stat-sub{font-size:11px;color:var(--text-hint);margin-top:4px}
+.c-purple{color:var(--purple)}
+.c-teal{color:var(--teal)}
+.c-amber{color:var(--amber)}
+.c-red{color:var(--red)}
+
+/* CHARTS ROW */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chart-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px}
+.chart-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--text-muted)}
+.chart-wrap{position:relative;height:180px}
+
+/* TABLE SECTION */
+.table-section{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border)}
+.table-title{font-size:14px;font-weight:500}
+.table-actions{display:flex;gap:8px;align-items:center}
+.changed-label{font-size:12px;color:var(--amber);font-weight:500}
+.btn-discard{padding:6px 14px;background:transparent;border:0.5px solid var(--border-strong);border-radius:6px;font-size:13px;cursor:pointer;color:var(--text-muted)}
+.btn-discard:hover{background:var(--bg-surface)}
+.btn-save{padding:6px 16px;background:var(--teal);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
+.btn-save:hover{background:#0F6E56}
+.btn-save:disabled{background:var(--gray-100);color:var(--gray-400);cursor:default}
+
+/* TABLE */
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:var(--bg-surface)}
+th{padding:8px 14px;text-align:left;font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border);white-space:nowrap}
+th.num{text-align:right}
+td{padding:7px 14px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAF8}
+tr.changed td{background:#FFFBF0!important}
+.td-edit input{width:100%;border:none;background:transparent;font-size:13px;color:var(--text);outline:none;font-family:inherit;padding:0;text-align:right}
+.td-edit input:focus{background:var(--purple-light);border-radius:4px;padding:2px 6px;color:#3C3489}
+.td-code{font-family:monospace;font-size:12px;color:var(--text-muted)}
+.td-num{text-align:right;font-variant-numeric:tabular-nums}
+.status-pill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:500}
+.s-posted{background:var(--teal-light);color:#085041}
+.s-draft{background:var(--amber-light);color:#633806}
+.s-other{background:var(--gray-50);color:var(--gray-600)}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:0.5px solid var(--border);font-size:12px;color:var(--text-muted)}
+.page-btns{display:flex;gap:4px}
+.page-btn{padding:4px 10px;border:0.5px solid var(--border);border-radius:5px;background:transparent;cursor:pointer;font-size:12px;color:var(--text-muted)}
+.page-btn:hover{background:var(--bg-surface)}
+.page-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+.page-btn:disabled{opacity:.4;cursor:default}
+
+/* LOADING / EMPTY */
+.loading{display:flex;align-items:center;gap:10px;padding:16px 24px;color:var(--text-muted);font-size:13px}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{padding:40px;text-align:center;color:var(--text-muted);font-size:13px}
+.hidden{display:none!important}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:999;display:none;align-items:center;gap:8px;max-width:360px}
+.toast.show{display:flex;animation:slideup .2s ease}
+.toast.success{background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5}
+.toast.error{background:var(--red-light);color:var(--red);border:0.5px solid #F09595}
+@keyframes slideup{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* SAVE MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300;display:none;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:var(--bg);border-radius:var(--radius-lg);padding:24px;width:440px;display:flex;flex-direction:column;gap:16px}
+.modal h3{font-size:15px;font-weight:500}
+.modal p{font-size:13px;color:var(--text-muted);line-height:1.6}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.modal textarea{width:100%;padding:10px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:13px;resize:vertical;min-height:80px;font-family:inherit;color:var(--text)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="white"/><rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/></svg></div>
+      <span>Unit4 Budget Dashboard</span>
+    </div>
+    <p class="login-sub">Introduz as credenciais Unit4 para aceder</p>
+    <div class="field">
+      <label>Utilizador</label>
+      <input id="inp-user" type="text" placeholder="utilizador" autocomplete="username"/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <div class="login-err" id="login-err">Credenciais inválidas. Verifica o utilizador e password.</div>
+    <button class="btn-primary" id="btn-login" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="white"/><rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/></svg></div>
+    <span class="app-name">Unit4 Budget Dashboard</span>
+    <span class="app-env">ACCEPT</span>
+  </div>
+  <div class="topbar-right">
+    <span class="user-badge" id="user-badge" style="display:none"></span>
+    <button class="btn-sm" id="btn-logout" style="display:none" onclick="doLogout()">Sair</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="search-row">
+      <div class="field">
+        <label>Projecto</label>
+        <input id="inp-project" type="text" placeholder="ex: 1105131" onkeydown="if(event.key==='Enter')searchProject()"/>
+      </div>
+      <button class="btn-search" id="btn-search" onclick="searchProject()">Pesquisar</button>
+    </div>
+    <div class="version-filter hidden" id="version-filter">
+      <label>Versão:</label>
+      <select id="sel-version" onchange="filterByVersion()">
+        <option value="">Todas as versões</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading hidden" id="loading">
+    <div class="spinner"></div> A carregar dados do projecto...
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content hidden" id="content">
+
+    <!-- PROJECT HEADER -->
+    <div class="proj-header">
+      <div>
+        <div class="proj-title" id="proj-title">—</div>
+        <div class="proj-meta" id="proj-meta">—</div>
+      </div>
+      <div class="proj-badges" id="proj-badges"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid" id="stats-grid"></div>
+
+    <!-- CHARTS -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Budget por conta (top 8)</div>
+        <div class="chart-wrap"><canvas id="chart-accounts"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Distribuição por período</div>
+        <div class="chart-wrap"><canvas id="chart-periods"></canvas></div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-section">
+      <div class="table-header">
+        <span class="table-title">Linhas de budget <span id="row-count" style="color:var(--text-muted);font-weight:400"></span></span>
+        <div class="table-actions">
+          <span class="changed-label hidden" id="changed-label"></span>
+          <button class="btn-discard hidden" id="btn-discard" onclick="discardChanges()">Descartar</button>
+          <button class="btn-save" id="btn-save" onclick="openSaveModal()" disabled>Guardar no Unit4</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Transacção</th>
+              <th>Conta</th>
+              <th>Descrição conta</th>
+              <th>Versão</th>
+              <th>Período</th>
+              <th class="num">Montante</th>
+              <th>Moeda</th>
+              <th>Estado</th>
+              <th>Actualizado por</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SAVE MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3>Confirmar alterações</h3>
+    <p id="modal-desc">—</p>
+    <div>
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Nota / motivo (opcional)</label>
+      <textarea id="modal-note" placeholder="ex: Revisão de budget Q2 2024..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-discard" onclick="closeSaveModal()">Cancelar</button>
+      <button class="btn-save" id="btn-confirm-save" onclick="confirmSave()">Confirmar e guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '';
+let authHeader = '';
+let currentUser = '';
+let allRows = [];
+let originalRows = {};
+let changedIds = new Set();
+let currentProject = '';
+let currentVersion = '';
+let page = 1;
+const pageSize = 50;
+let totalRows = 0;
+let chartAccounts = null;
+let chartPeriods = null;
+
+// ── AUTH ──────────────────────────────────────────────────────────
+async function doLogin() {
+  const user = document.getElementById('inp-user').value.trim();
+  const pass = document.getElementById('inp-pass').value;
+  if (!user || !pass) { showLoginErr('Preenche utilizador e password.'); return; }
+
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true; btn.textContent = 'A verificar...';
+
+  authHeader = 'Basic ' + btoa(user + ':' + pass);
+
+  try {
+    const res = await fetch(API + '/api/auth', { headers: { 'Authorization': authHeader } });
+    const data = await res.json();
+
+    if (!res.ok || data.valid === false) {
+      showLoginErr('Credenciais inválidas. Verifica o utilizador e password.');
+      authHeader = '';
+    } else {
+      currentUser = user;
+      document.getElementById('login-overlay').style.display = 'none';
+      document.getElementById('main').classList.add('visible');
+      document.getElementById('user-badge').textContent = user;
+      document.getElementById('user-badge').style.display = 'block';
+      document.getElementById('btn-logout').style.display = 'block';
+    }
+  } catch(e) {
+    showLoginErr('Erro de ligação. Tenta de novo.');
+    authHeader = '';
+  }
+
+  btn.disabled = false; btn.textContent = 'Entrar';
+}
+
+function showLoginErr(msg) {
+  const el = document.getElementById('login-err');
+  el.textContent = msg; el.classList.add('show');
+}
+
+function doLogout() {
+  authHeader = ''; currentUser = ''; allRows = []; changedIds = new Set();
+  document.getElementById('login-overlay').style.display = 'flex';
+  document.getElementById('main').classList.remove('visible');
+  document.getElementById('content').classList.add('hidden');
+  document.getElementById('user-badge').style.display = 'none';
+  document.getElementById('btn-logout').style.display = 'none';
+  document.getElementById('login-err').classList.remove('show');
+}
+
+document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+// ── SEARCH ────────────────────────────────────────────────────────
+async function searchProject() {
+  const proj = document.getElementById('inp-project').value.trim();
+  if (!proj) return;
+
+  currentProject = proj;
+  currentVersion = '';
+  page = 1;
+  changedIds = new Set();
+  originalRows = {};
+
+  document.getElementById('content').classList.add('hidden');
+  document.getElementById('loading').classList.remove('hidden');
+  document.getElementById('btn-search').disabled = true;
+
+  try {
+    await loadData();
+  } catch(e) {
+    showToast('Erro ao carregar dados: ' + e.message, 'error');
+  }
+
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('btn-search').disabled = false;
+}
+
+async function filterByVersion() {
+  currentVersion = document.getElementById('sel-version').value;
+  page = 1;
+  document.getElementById('loading').classList.remove('hidden');
+  document.getElementById('content').classList.add('hidden');
+  await loadData();
+  document.getElementById('loading').classList.add('hidden');
+}
+
+async function loadData() {
+  const body = { project: currentProject, page, pageSize };
+  if (currentVersion) body.version = currentVersion;
+
+  const [resultsRes, countRes] = await Promise.all([
+    fetch(API + '/api/budget', {
+      method: 'POST',
+      headers: { 'Authorization': authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }),
+    fetch(API + '/api/budget-count', {
+      method: 'POST',
+      headers: { 'Authorization': authHeader, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ project: currentProject, version: currentVersion || undefined })
+    })
+  ]);
+
+  if (!resultsRes.ok) throw new Error('API ' + resultsRes.status);
+
+  const results = await resultsRes.json();
+  const countData = countRes.ok ? await countRes.json() : null;
+
+  totalRows = countData?.count ?? countData?.value ?? 0;
+  processResults(results);
+}
+
+function processResults(data) {
+  if (!data.successful || !data.rows) {
+    showToast('Sem dados para este projecto.', 'error');
+    return;
+  }
+
+  const fields = data.fields || [];
+  const fieldMap = {};
+  fields.forEach(f => { fieldMap[f.index] = f.publicPath + (f.isDescription ? '__desc' : ''); });
+
+  allRows = (data.rows || []).map(row => {
+    const obj = { _id: Math.random().toString(36).slice(2) };
+    (row.values || row).forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
+    return obj;
+  });
+
+  // save originals for discard
+  allRows.forEach(r => { originalRows[r._id] = { ...r }; });
+
+  // extract versions for filter
+  const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))].sort();
+  const sel = document.getElementById('sel-version');
+  sel.innerHTML = '<option value="">Todas as versões</option>';
+  versions.forEach(v => { sel.innerHTML += `<option value="${v}"${v===currentVersion?' selected':''}>${v}</option>`; });
+  document.getElementById('version-filter').classList.toggle('hidden', versions.length < 2);
+
+  renderHeader();
+  renderStats();
+  renderCharts();
+  renderTable();
+
+  document.getElementById('content').classList.remove('hidden');
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderHeader() {
+  document.getElementById('proj-title').textContent = 'Projecto ' + currentProject;
+  document.getElementById('proj-meta').textContent = currentVersion ? 'Versão: ' + currentVersion : 'Todas as versões';
+
+  const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))];
+  const currencies = [...new Set(allRows.map(r => r.currencyCode).filter(Boolean))];
+  let badges = '';
+  if (versions.length) badges += `<span class="badge badge-purple">${versions.length > 1 ? versions.length + ' versões' : versions[0]}</span>`;
+  if (currencies.length) badges += `<span class="badge badge-teal">${currencies[0]}</span>`;
+  document.getElementById('proj-badges').innerHTML = badges;
+}
+
+function renderStats() {
+  const amounts = allRows.map(r => parseFloat(r.amount) || 0);
+  const total = amounts.reduce((s, v) => s + v, 0);
+  const positive = amounts.filter(v => v > 0).reduce((s, v) => s + v, 0);
+  const negative = amounts.filter(v => v < 0).reduce((s, v) => s + v, 0);
+  const accounts = new Set(allRows.map(r => r.account).filter(Boolean)).size;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total linhas</div><div class="stat-value c-purple">${totalRows || allRows.length}</div><div class="stat-sub">página ${page}</div></div>
+    <div class="stat-card"><div class="stat-label">Total budget</div><div class="stat-value c-purple">${fmt(total)}</div><div class="stat-sub">nesta página</div></div>
+    <div class="stat-card"><div class="stat-label">Receita / entrada</div><div class="stat-value c-teal">${fmt(positive)}</div></div>
+    <div class="stat-card"><div class="stat-label">Custo / saída</div><div class="stat-value c-amber">${fmt(Math.abs(negative))}</div></div>
+    <div class="stat-card"><div class="stat-label">Contas distintas</div><div class="stat-value c-purple">${accounts}</div></div>
+  `;
+}
+
+function renderCharts() {
+  // by account
+  const byAccount = {};
+  allRows.forEach(r => {
+    const k = (r.account || '?') + (r['account__desc'] ? ' – ' + r['account__desc'] : '');
+    byAccount[k] = (byAccount[k] || 0) + (parseFloat(r.amount) || 0);
+  });
+  const topAccounts = Object.entries(byAccount).sort((a,b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 8);
+
+  if (chartAccounts) chartAccounts.destroy();
+  chartAccounts = new Chart(document.getElementById('chart-accounts'), {
+    type: 'bar',
+    data: {
+      labels: topAccounts.map(([k]) => k.length > 20 ? k.slice(0, 20) + '…' : k),
+      datasets: [{ data: topAccounts.map(([,v]) => Math.round(v)), backgroundColor: '#EEEDFE', borderColor: '#534AB7', borderWidth: 1, borderRadius: 4 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks: { font: { size: 11 } } }, x: { ticks: { font: { size: 10 } } } } }
+  });
+
+  // by period
+  const byPeriod = {};
+  allRows.forEach(r => { const k = r.period || '?'; byPeriod[k] = (byPeriod[k] || 0) + (parseFloat(r.amount) || 0); });
+  const periods = Object.entries(byPeriod).sort((a,b) => String(a[0]).localeCompare(String(b[0])));
+
+  if (chartPeriods) chartPeriods.destroy();
+  chartPeriods = new Chart(document.getElementById('chart-periods'), {
+    type: 'line',
+    data: {
+      labels: periods.map(([k]) => k),
+      datasets: [{ data: periods.map(([,v]) => Math.round(v)), borderColor: '#1D9E75', backgroundColor: '#E1F5EE', borderWidth: 2, pointRadius: 3, fill: true, tension: 0.3 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks: { font: { size: 11 } } }, x: { ticks: { font: { size: 11 } } } } }
+  });
+}
+
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+
+  if (!allRows.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty">Sem resultados para este projecto / versão.</td></tr>';
+    document.getElementById('row-count').textContent = '';
+    renderPagination();
+    return;
+  }
+
+  document.getElementById('row-count').textContent = `(${allRows.length} nesta página${totalRows ? ', ' + totalRows + ' total' : ''})`;
+
+  allRows.forEach(row => {
+    const tr = document.createElement('tr');
+    if (changedIds.has(row._id)) tr.classList.add('changed');
+
+    const statusClass = row.status === 'P' ? 's-posted' : row.status === 'D' ? 's-draft' : 's-other';
+    const statusLabel = row.status === 'P' ? 'Lançado' : row.status === 'D' ? 'Rascunho' : row.status || '—';
+    const amount = parseFloat(row.amount) || 0;
+
+    tr.innerHTML = `
+      <td class="td-code">${row.transactionId || '—'}</td>
+      <td class="td-code">${row.account || '—'}</td>
+      <td style="color:var(--text-muted)">${row['account__desc'] || '—'}</td>
+      <td>${row.version || '—'}</td>
+      <td>${row.period || '—'}</td>
+      <td class="td-num td-edit"><input type="number" step="0.01" value="${amount.toFixed(2)}" onchange="markChanged('${row._id}','amount',parseFloat(this.value)||0)" onblur="renderStats()"/></td>
+      <td>${row.currencyCode || '—'}</td>
+      <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+      <td style="color:var(--text-muted)">${row.updatedBy || '—'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  renderPagination();
+  updateSaveBtn();
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(totalRows / pageSize);
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+
+  const start = (page - 1) * pageSize + 1;
+  const end = Math.min(page * pageSize, totalRows);
+  let html = `<span>Linhas ${start}–${end} de ${totalRows}</span><div class="page-btns">`;
+  html += `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>‹</button>`;
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - page) > 1) {
+      if (i === 3 || i === totalPages - 2) html += '<span style="padding:4px 2px">…</span>';
+      continue;
+    }
+    html += `<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+
+  html += `<button class="page-btn" onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>›</button></div>`;
+  pag.innerHTML = html;
+}
+
+async function goPage(n) {
+  page = n;
+  document.getElementById('loading').classList.remove('hidden');
+  document.getElementById('content').classList.add('hidden');
+  await loadData();
+  document.getElementById('loading').classList.add('hidden');
+}
+
+// ── EDIT ──────────────────────────────────────────────────────────
+function markChanged(id, field, value) {
+  const row = allRows.find(r => r._id === id);
+  if (row) { row[field] = value; changedIds.add(id); }
+  updateSaveBtn();
+  renderStats();
+  renderCharts();
+  // highlight row
+  document.querySelectorAll('tbody tr').forEach((tr, i) => {
+    if (allRows[i] && changedIds.has(allRows[i]._id)) tr.classList.add('changed');
+  });
+}
+
+function updateSaveBtn() {
+  const n = changedIds.size;
+  document.getElementById('btn-save').disabled = n === 0;
+  document.getElementById('changed-label').textContent = n > 0 ? `${n} linha${n>1?'s':''} alterada${n>1?'s':''}` : '';
+  document.getElementById('changed-label').classList.toggle('hidden', n === 0);
+  document.getElementById('btn-discard').classList.toggle('hidden', n === 0);
+}
+
+function discardChanges() {
+  allRows.forEach(r => { if (changedIds.has(r._id)) Object.assign(r, originalRows[r._id]); });
+  changedIds = new Set();
+  renderTable();
+  renderStats();
+  renderCharts();
+  showToast('Alterações descartadas.', 'success');
+}
+
+// ── SAVE ──────────────────────────────────────────────────────────
+function openSaveModal() {
+  const n = changedIds.size;
+  document.getElementById('modal-desc').textContent =
+    `Vais guardar ${n} linha${n>1?'s':''} alterada${n>1?'s':''} no projecto ${currentProject}. Esta acção envia os dados para o Unit4.`;
+  document.getElementById('modal-note').value = '';
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+function closeSaveModal() {
+  document.getElementById('modal-bg').classList.remove('show');
+}
+
+async function confirmSave() {
+  const btn = document.getElementById('btn-confirm-save');
+  btn.disabled = true; btn.textContent = 'A guardar...';
+
+  const changed = allRows.filter(r => changedIds.has(r._id));
+  const note = document.getElementById('modal-note').value;
+
+  // NOTE: When Planner write API becomes available, replace this block
+  // with a real PUT/POST to the Unit4 Planner Transactions endpoint.
+  // For now, we log the payload that would be sent.
+  console.log('SAVE PAYLOAD:', { project: currentProject, note, rows: changed });
+
+  await new Promise(r => setTimeout(r, 800));
+
+  // Update originals after save
+  changed.forEach(r => { originalRows[r._id] = { ...r }; });
+  changedIds = new Set();
+
+  closeSaveModal();
+  updateSaveBtn();
+  renderTable();
+
+  btn.disabled = false; btn.textContent = 'Confirmar e guardar';
+  showToast(`${changed.length} linha${changed.length>1?'s':''} guardada${changed.length>1?'s':''} com sucesso.`, 'success');
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function fmt(n) {
+  return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => { t.className = 'toast'; }, 3500);
+}
+</script>
+</body>
+</html>

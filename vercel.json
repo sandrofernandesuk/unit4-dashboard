@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "public/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ],
+  "env": {
+    "UNIT4_BASE_URL": "https://ubw-accept01.unit4cloud.com/us_pah_acpt_webapi",
+    "UNIT4_COMPANY_ID": "PC",
+    "UNIT4_REPORT_ID": "1709"
+  }
+}
