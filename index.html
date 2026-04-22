@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,12 +15,10 @@
   --gray-50:#F1EFE8;--gray-100:#D3D1C7;--gray-400:#888780;--gray-600:#5F5E5A;
   --text:#1a1a18;--text-muted:#5F5E5A;--text-hint:#888780;
   --border:#e2e0d8;--border-strong:#c8c6bc;
-  --bg:#ffffff;--bg-surface:#F7F6F2;--bg-card:#ffffff;
+  --bg:#ffffff;--bg-surface:#F7F6F2;
   --radius:8px;--radius-lg:12px;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:var(--text);background:var(--bg-surface);min-height:100vh}
-
-/* TOPBAR */
 .topbar{height:52px;background:var(--bg);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100}
 .topbar-left{display:flex;align-items:center;gap:10px}
 .logo{width:30px;height:30px;background:var(--purple);border-radius:7px;display:flex;align-items:center;justify-content:center}
@@ -31,8 +29,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .user-badge{font-size:12px;color:var(--text-muted);padding:4px 10px;background:var(--bg-surface);border:0.5px solid var(--border);border-radius:20px}
 .btn-sm{padding:5px 12px;border:0.5px solid var(--border-strong);border-radius:6px;background:transparent;cursor:pointer;font-size:12px;color:var(--text-muted)}
 .btn-sm:hover{background:var(--bg-surface)}
-
-/* LOGIN */
 .login-overlay{position:fixed;inset:0;background:var(--bg-surface);display:flex;align-items:center;justify-content:center;z-index:200}
 .login-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:32px;width:400px;display:flex;flex-direction:column;gap:18px}
 .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
@@ -43,125 +39,121 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .field label{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
 .field input{padding:9px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:14px;color:var(--text);outline:none;background:var(--bg)}
 .field input:focus{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-light)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn-primary{padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-primary{padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer}
 .btn-primary:hover{background:#3C3489}
 .btn-primary:disabled{background:var(--gray-100);cursor:default;color:var(--gray-400)}
 .login-err{font-size:12px;color:var(--red);background:var(--red-light);border:0.5px solid #F09595;border-radius:6px;padding:8px 12px;display:none}
 .login-err.show{display:block}
-
-/* MAIN LAYOUT */
-.main{display:none;flex-direction:column;gap:0}
+.main{display:none;flex-direction:column}
 .main.visible{display:flex}
-
-/* SEARCH BAR */
-.search-section{background:var(--bg);border-bottom:0.5px solid var(--border);padding:14px 24px}
-.search-row{display:flex;gap:10px;align-items:flex-end;max-width:700px}
-.search-row .field{flex:1}
-.search-row .field input{font-size:15px;padding:9px 14px}
-.btn-search{padding:9px 20px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;height:40px}
+.search-section{background:var(--bg);border-bottom:0.5px solid var(--border);padding:12px 24px}
+.search-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.search-row .field{min-width:180px}
+.search-row .field input{font-size:14px;padding:8px 12px}
+.btn-search{padding:8px 20px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;height:38px}
 .btn-search:hover{background:#3C3489}
 .btn-search:disabled{background:var(--gray-100);cursor:default;color:var(--gray-400)}
-.version-filter{display:flex;align-items:center;gap:8px;margin-top:10px}
-.version-filter label{font-size:12px;color:var(--text-muted)}
-.version-filter select{padding:5px 10px;border:0.5px solid var(--border-strong);border-radius:6px;font-size:13px;color:var(--text);background:var(--bg)}
-
-/* CONTENT */
-.content{padding:20px 24px;display:flex;flex-direction:column;gap:16px}
-
-/* PROJECT HEADER */
-.proj-header{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
-.proj-title{font-size:16px;font-weight:500}
+.filters-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.filter-label{font-size:11px;color:var(--text-hint);text-transform:uppercase;letter-spacing:.4px}
+select.filter-select{padding:5px 10px;border:0.5px solid var(--border-strong);border-radius:6px;font-size:12px;color:var(--text);background:var(--bg);cursor:pointer}
+.btn-clear{padding:4px 10px;background:transparent;border:0.5px solid var(--border-strong);border-radius:20px;font-size:12px;color:var(--text-muted);cursor:pointer;display:none}
+.btn-clear:hover{background:var(--red-light);color:var(--red);border-color:var(--red)}
+.content{padding:16px 24px;display:flex;flex-direction:column;gap:14px}
+.proj-header{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.proj-title{font-size:15px;font-weight:500}
 .proj-meta{font-size:12px;color:var(--text-muted);margin-top:3px}
-.proj-badges{display:flex;gap:8px}
-.badge{font-size:11px;padding:3px 9px;border-radius:10px;font-weight:500}
+.proj-badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
 .badge-purple{background:var(--purple-light);color:#3C3489}
 .badge-teal{background:var(--teal-light);color:#085041}
-.badge-amber{background:var(--amber-light);color:#633806}
-
-/* STAT CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.stat-card{background:var(--bg-surface);border-radius:var(--radius);padding:14px 16px}
-.stat-label{font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
-.stat-value{font-size:22px;font-weight:500;line-height:1}
-.stat-sub{font-size:11px;color:var(--text-hint);margin-top:4px}
-.c-purple{color:var(--purple)}
-.c-teal{color:var(--teal)}
-.c-amber{color:var(--amber)}
-.c-red{color:var(--red)}
-
-/* CHARTS ROW */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.stat-label{font-size:11px;color:var(--text-muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.stat-value{font-size:20px;font-weight:500;line-height:1}
+.stat-sub{font-size:11px;color:var(--text-hint);margin-top:3px}
+.c-purple{color:var(--purple)}.c-teal{color:var(--teal)}.c-amber{color:var(--amber)}.c-red{color:var(--red)}
 .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.chart-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px}
-.chart-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--text-muted)}
-.chart-wrap{position:relative;height:180px}
-
-/* TABLE SECTION */
+.chart-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px}
+.chart-title{font-size:11px;font-weight:500;margin-bottom:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px}
+.chart-wrap{position:relative;height:170px}
 .table-section{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.table-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border)}
-.table-title{font-size:14px;font-weight:500}
-.table-actions{display:flex;gap:8px;align-items:center}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:0.5px solid var(--border);flex-wrap:wrap;gap:8px}
+.table-title{font-size:13px;font-weight:500}
+.table-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .changed-label{font-size:12px;color:var(--amber);font-weight:500}
-.btn-discard{padding:6px 14px;background:transparent;border:0.5px solid var(--border-strong);border-radius:6px;font-size:13px;cursor:pointer;color:var(--text-muted)}
+.btn-cols{padding:5px 12px;background:var(--bg-surface);border:0.5px solid var(--border-strong);border-radius:6px;font-size:12px;cursor:pointer;color:var(--text-muted)}
+.btn-cols:hover{background:var(--purple-light);color:var(--purple);border-color:var(--purple)}
+.btn-discard{padding:5px 12px;background:transparent;border:0.5px solid var(--border-strong);border-radius:6px;font-size:12px;cursor:pointer;color:var(--text-muted)}
 .btn-discard:hover{background:var(--bg-surface)}
-.btn-save{padding:6px 16px;background:var(--teal);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
+.btn-save{padding:5px 14px;background:var(--teal);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer}
 .btn-save:hover{background:#0F6E56}
 .btn-save:disabled{background:var(--gray-100);color:var(--gray-400);cursor:default}
-
-/* TABLE */
-.table-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
+.table-scroll{overflow-x:auto;max-height:500px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{position:sticky;top:0;z-index:10}
 thead tr{background:var(--bg-surface)}
-th{padding:8px 14px;text-align:left;font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border);white-space:nowrap}
+th{padding:7px 12px;text-align:left;font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:0.5px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--purple)}
+th.asc::after{content:' ↑'}th.desc::after{content:' ↓'}
 th.num{text-align:right}
-td{padding:7px 14px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle}
+td{padding:6px 12px;border-bottom:0.5px solid var(--border);color:var(--text);white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#FAFAF8}
 tr.changed td{background:#FFFBF0!important}
-.td-edit input{width:100%;border:none;background:transparent;font-size:13px;color:var(--text);outline:none;font-family:inherit;padding:0;text-align:right}
-.td-edit input:focus{background:var(--purple-light);border-radius:4px;padding:2px 6px;color:#3C3489}
-.td-code{font-family:monospace;font-size:12px;color:var(--text-muted)}
+.td-edit input{width:90px;border:none;background:transparent;font-size:12px;color:var(--text);outline:none;font-family:inherit;padding:0;text-align:right}
+.td-edit input:focus{background:var(--purple-light);border-radius:4px;padding:2px 5px;color:#3C3489}
 .td-num{text-align:right;font-variant-numeric:tabular-nums}
-.status-pill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:500}
-.s-posted{background:var(--teal-light);color:#085041}
-.s-draft{background:var(--amber-light);color:#633806}
+.status-pill{display:inline-block;padding:1px 7px;border-radius:8px;font-size:11px;font-weight:500}
+.s-p{background:var(--teal-light);color:#085041}
+.s-d{background:var(--amber-light);color:#633806}
 .s-other{background:var(--gray-50);color:var(--gray-600)}
-
-/* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:0.5px solid var(--border);font-size:12px;color:var(--text-muted)}
-.page-btns{display:flex;gap:4px}
-.page-btn{padding:4px 10px;border:0.5px solid var(--border);border-radius:5px;background:transparent;cursor:pointer;font-size:12px;color:var(--text-muted)}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-top:0.5px solid var(--border);font-size:12px;color:var(--text-muted)}
+.page-btns{display:flex;gap:3px}
+.page-btn{padding:3px 9px;border:0.5px solid var(--border);border-radius:5px;background:transparent;cursor:pointer;font-size:12px;color:var(--text-muted)}
 .page-btn:hover{background:var(--bg-surface)}
 .page-btn.active{background:var(--purple);color:#fff;border-color:var(--purple)}
 .page-btn:disabled{opacity:.4;cursor:default}
-
-/* LOADING / EMPTY */
-.loading{display:flex;align-items:center;gap:10px;padding:16px 24px;color:var(--text-muted);font-size:13px}
+.loading{display:flex;align-items:center;gap:10px;padding:20px 24px;color:var(--text-muted);font-size:13px}
 .spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{padding:40px;text-align:center;color:var(--text-muted);font-size:13px}
 .hidden{display:none!important}
-
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:999;display:none;align-items:center;gap:8px;max-width:360px}
+.toast{position:fixed;bottom:24px;right:24px;padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:999;display:none;align-items:center;gap:8px;max-width:360px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .toast.show{display:flex;animation:slideup .2s ease}
 .toast.success{background:#E1F5EE;color:#085041;border:0.5px solid #5DCAA5}
 .toast.error{background:var(--red-light);color:var(--red);border:0.5px solid #F09595}
-@keyframes slideup{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
-
-/* SAVE MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300;display:none;align-items:center;justify-content:center}
+@keyframes slideup{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.col-panel-bg{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:300;display:none;align-items:flex-start;justify-content:flex-end;padding-top:52px}
+.col-panel-bg.show{display:flex}
+.col-panel{background:var(--bg);border-left:0.5px solid var(--border);width:300px;height:calc(100vh - 52px);overflow-y:auto;display:flex;flex-direction:column}
+.col-panel-header{padding:14px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:1}
+.col-panel-title{font-size:13px;font-weight:500}
+.col-close{width:26px;height:26px;border:none;background:transparent;cursor:pointer;font-size:18px;color:var(--text-muted);border-radius:5px}
+.col-close:hover{background:var(--bg-surface)}
+.col-search{padding:10px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:49px;background:var(--bg);z-index:1}
+.col-search input{width:100%;padding:6px 10px;border:0.5px solid var(--border-strong);border-radius:6px;font-size:13px;outline:none}
+.col-search input:focus{border-color:var(--purple)}
+.col-actions{padding:8px 16px;display:flex;gap:6px;border-bottom:0.5px solid var(--border)}
+.btn-col-act{padding:4px 10px;font-size:11px;border:0.5px solid var(--border-strong);border-radius:5px;cursor:pointer;background:transparent;color:var(--text-muted)}
+.btn-col-act:hover{background:var(--bg-surface)}
+.col-list{padding:6px 0;flex:1}
+.col-group-label{padding:8px 16px 2px;font-size:10px;font-weight:600;color:var(--text-hint);text-transform:uppercase;letter-spacing:.6px}
+.col-item{display:flex;align-items:center;gap:10px;padding:5px 16px;cursor:pointer}
+.col-item:hover{background:var(--bg-surface)}
+.col-item input[type=checkbox]{width:14px;height:14px;accent-color:var(--purple);cursor:pointer;flex-shrink:0}
+.col-item label{font-size:12px;color:var(--text);cursor:pointer;flex:1}
+.col-item.on label{color:var(--purple);font-weight:500}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:400;display:none;align-items:center;justify-content:center}
 .modal-bg.show{display:flex}
-.modal{background:var(--bg);border-radius:var(--radius-lg);padding:24px;width:440px;display:flex;flex-direction:column;gap:16px}
+.modal{background:var(--bg);border-radius:var(--radius-lg);padding:24px;width:420px;display:flex;flex-direction:column;gap:14px}
 .modal h3{font-size:15px;font-weight:500}
 .modal p{font-size:13px;color:var(--text-muted);line-height:1.6}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end}
-.modal textarea{width:100%;padding:10px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:13px;resize:vertical;min-height:80px;font-family:inherit;color:var(--text)}
+.modal textarea{width:100%;padding:8px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:13px;resize:vertical;min-height:70px;font-family:inherit;color:var(--text)}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-overlay" id="login-overlay">
   <div class="login-card">
     <div class="login-logo">
@@ -169,20 +161,13 @@ tr.changed td{background:#FFFBF0!important}
       <span>Unit4 Budget Dashboard</span>
     </div>
     <p class="login-sub">Enter your Unit4 credentials to access</p>
-    <div class="field">
-      <label>Username</label>
-      <input id="inp-user" type="text" placeholder="username" autocomplete="username"/>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"/>
-    </div>
+    <div class="field"><label>Username</label><input id="inp-user" type="text" placeholder="username" autocomplete="username"/></div>
+    <div class="field"><label>Password</label><input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
     <div class="login-err" id="login-err">Invalid credentials. Please check your username and password.</div>
     <button class="btn-primary" id="btn-login" onclick="doLogin()">Sign in</button>
   </div>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
     <div class="logo"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="white"/><rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/></svg></div>
@@ -195,35 +180,26 @@ tr.changed td{background:#FFFBF0!important}
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main" id="main">
-
-  <!-- SEARCH -->
   <div class="search-section">
     <div class="search-row">
-      <div class="field">
-        <label>Project</label>
-        <input id="inp-project" type="text" placeholder="ex: 1105131" onkeydown="if(event.key==='Enter')searchProject()"/>
-      </div>
+      <div class="field"><label>Project</label><input id="inp-project" type="text" placeholder="e.g. 1105131" onkeydown="if(event.key==='Enter')searchProject()"/></div>
       <button class="btn-search" id="btn-search" onclick="searchProject()">Search</button>
     </div>
-    <div class="version-filter hidden" id="version-filter">
-      <label>Version:</label>
-      <select id="sel-version" onchange="filterByVersion()">
-        <option value="">All versions</option>
-      </select>
+    <div class="filters-row hidden" id="filters-row">
+      <span class="filter-label">Filters:</span>
+      <select class="filter-select" id="f-version" onchange="applyFilters()"><option value="">All versions</option></select>
+      <select class="filter-select" id="f-account" onchange="applyFilters()"><option value="">All accounts</option></select>
+      <select class="filter-select" id="f-activity" onchange="applyFilters()"><option value="">All activities</option></select>
+      <select class="filter-select" id="f-costc" onchange="applyFilters()"><option value="">All cost centres</option></select>
+      <select class="filter-select" id="f-status" onchange="applyFilters()"><option value="">All statuses</option></select>
+      <button class="btn-clear" id="btn-clear" onclick="clearFilters()">✕ Clear filters</button>
     </div>
   </div>
 
-  <!-- LOADING -->
-  <div class="loading hidden" id="loading">
-    <div class="spinner"></div> Loading project data...
-  </div>
+  <div class="loading hidden" id="loading"><div class="spinner"></div> Loading project data...</div>
 
-  <!-- CONTENT -->
   <div class="content hidden" id="content">
-
-    <!-- PROJECT HEADER -->
     <div class="proj-header">
       <div>
         <div class="proj-title" id="proj-title">—</div>
@@ -232,64 +208,53 @@ tr.changed td{background:#FFFBF0!important}
       <div class="proj-badges" id="proj-badges"></div>
     </div>
 
-    <!-- STATS -->
     <div class="stats-grid" id="stats-grid"></div>
 
-    <!-- CHARTS -->
     <div class="charts-row">
-      <div class="chart-card">
-        <div class="chart-title">Budget by account (top 8)</div>
-        <div class="chart-wrap"><canvas id="chart-accounts"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">Distribution by period</div>
-        <div class="chart-wrap"><canvas id="chart-periods"></canvas></div>
-      </div>
+      <div class="chart-card"><div class="chart-title">Budget by account (top 8)</div><div class="chart-wrap"><canvas id="chart-accounts"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Distribution by period</div><div class="chart-wrap"><canvas id="chart-periods"></canvas></div></div>
     </div>
 
-    <!-- TABLE -->
     <div class="table-section">
       <div class="table-header">
-        <span class="table-title">Budget lines <span id="row-count" style="color:var(--text-muted);font-weight:400"></span></span>
+        <span class="table-title">Budget lines <span id="row-count" style="color:var(--text-muted);font-weight:400;font-size:12px"></span></span>
         <div class="table-actions">
           <span class="changed-label hidden" id="changed-label"></span>
+          <button class="btn-cols" onclick="openColPanel()">⚙ Columns</button>
           <button class="btn-discard hidden" id="btn-discard" onclick="discardChanges()">Discard</button>
           <button class="btn-save" id="btn-save" onclick="openSaveModal()" disabled>Save to Unit4</button>
         </div>
       </div>
       <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Transaction</th>
-              <th>Account</th>
-              <th>Account description</th>
-              <th>Version</th>
-              <th>Period</th>
-              <th class="num">Amount</th>
-              <th>Currency</th>
-              <th>Status</th>
-              <th>Updated by</th>
-            </tr>
-          </thead>
-          <tbody id="table-body"></tbody>
-        </table>
+        <table><thead><tr id="thead-row"></tr></thead><tbody id="tbody"></tbody></table>
       </div>
       <div class="pagination" id="pagination"></div>
     </div>
-
   </div>
 </div>
 
-<!-- SAVE MODAL -->
+<div class="col-panel-bg" id="col-panel-bg" onclick="closePanelBg(event)">
+  <div class="col-panel">
+    <div class="col-panel-header">
+      <span class="col-panel-title">Configure columns</span>
+      <button class="col-close" onclick="closeColPanel()">×</button>
+    </div>
+    <div class="col-search"><input type="text" placeholder="Search columns..." id="col-search-inp" oninput="buildColList()"/></div>
+    <div class="col-actions">
+      <button class="btn-col-act" onclick="setDefaultCols()">Default</button>
+      <button class="btn-col-act" onclick="setAllCols()">Select all</button>
+      <button class="btn-col-act" onclick="setNoneCols()">Clear all</button>
+    </div>
+    <div class="col-list" id="col-list"></div>
+  </div>
+</div>
+
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
     <h3>Confirm changes</h3>
     <p id="modal-desc">—</p>
-    <div>
-      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Note / reason (optional)</label>
-      <textarea id="modal-note" placeholder="e.g. Budget revision Q2 2024..."></textarea>
-    </div>
+    <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Note / reason (optional)</label>
+    <textarea id="modal-note" placeholder="e.g. Budget revision Q2 2024..."></textarea></div>
     <div class="modal-actions">
       <button class="btn-discard" onclick="closeSaveModal()">Cancel</button>
       <button class="btn-save" id="btn-confirm-save" onclick="confirmSave()">Confirm and save</button>
@@ -297,382 +262,331 @@ tr.changed td{background:#FFFBF0!important}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-const API = '';
-let authHeader = '';
-let currentUser = '';
-let allRows = [];
-let originalRows = {};
-let changedIds = new Set();
-let currentProject = '';
-let currentVersion = '';
-let page = 1;
-const pageSize = 50;
-let totalRows = 0;
-let chartAccounts = null;
-let chartPeriods = null;
+const ALL_COLS = [
+  {key:'version',         label:'Version',            group:'Core',           editable:false},
+  {key:'project',         label:'Project',            group:'Core',           editable:false},
+  {key:'account',         label:'Account',            group:'Core',           editable:false},
+  {key:'account__desc',   label:'Account (T)',         group:'Core',           editable:false},
+  {key:'period',          label:'Period',              group:'Core',           editable:false},
+  {key:'amount',          label:'Amount',              group:'Core',           editable:true, num:true},
+  {key:'status',          label:'Status',              group:'Core',           editable:false},
+  {key:'currencyCode',    label:'Currency',            group:'Core',           editable:false},
+  {key:'transactionId',   label:'Transaction ID',      group:'IDs',            editable:false},
+  {key:'batchId',         label:'Batch ID',            group:'IDs',            editable:false},
+  {key:'transactionDate', label:'Transaction Date',    group:'Dates',          editable:false},
+  {key:'accountingPeriod',label:'Accounting Period',   group:'Dates',          editable:false},
+  {key:'updatedAt',       label:'Updated',             group:'Dates',          editable:false},
+  {key:'updatedBy',       label:'Updated By',          group:'Dates',          editable:false},
+  {key:'budgetBookId',    label:'Budget Book',         group:'Budget',         editable:false},
+  {key:'calculation',     label:'Calculation',         group:'Budget',         editable:false},
+  {key:'autoposting',     label:'Autoposting',         group:'Budget',         editable:false},
+  {key:'profile',         label:'Profile',             group:'Budget',         editable:false},
+  {key:'price',           label:'Price',               group:'Budget',         editable:false,num:true},
+  {key:'amount3',         label:'Amount 3',            group:'Budget',         editable:false,num:true},
+  {key:'amount4',         label:'Amount 4',            group:'Budget',         editable:false,num:true},
+  {key:'constant',        label:'Constant',            group:'Budget',         editable:false,num:true},
+  {key:'depreciation',    label:'Depreciation',        group:'Budget',         editable:false},
+  {key:'activity',        label:'Activity',            group:'Dimensions',     editable:false},
+  {key:'activity__desc',  label:'Activity (T)',         group:'Dimensions',     editable:false},
+  {key:'costc',           label:'Cost Centre',         group:'Dimensions',     editable:false},
+  {key:'costc__desc',     label:'Cost Centre (T)',      group:'Dimensions',     editable:false},
+  {key:'asset',           label:'Asset',               group:'Dimensions',     editable:false},
+  {key:'asset__desc',     label:'Asset (T)',            group:'Dimensions',     editable:false},
+  {key:'b1_activity',     label:'B1 Activity',         group:'Dimensions',     editable:false},
+  {key:'b1_activity__desc',label:'B1 Activity (T)',    group:'Dimensions',     editable:false},
+  {key:'budelem',         label:'Budget Element',      group:'Dimensions',     editable:false},
+  {key:'budelem__desc',   label:'Budget Element (T)',   group:'Dimensions',     editable:false},
+  {key:'donorFunded',     label:'Donor Funded',        group:'Dimensions',     editable:false},
+  {key:'donorFunded__desc',label:'Donor Funded (T)',   group:'Dimensions',     editable:false},
+  {key:'cost_cat',        label:'Cost Cat',            group:'Dimensions',     editable:false},
+  {key:'cost_cat__desc',  label:'Cost Cat (T)',         group:'Dimensions',     editable:false},
+  {key:'contract',        label:'Contract',            group:'Dimensions',     editable:false},
+  {key:'contract__desc',  label:'Contract (T)',         group:'Dimensions',     editable:false},
+  {key:'company',         label:'Company',             group:'Dimensions',     editable:false},
+  {key:'company__desc',   label:'Company (T)',          group:'Dimensions',     editable:false},
+  {key:'fundsrc',         label:'Fund Source',         group:'Dimensions',     editable:false},
+  {key:'fundsrc__desc',   label:'Fund Source (T)',      group:'Dimensions',     editable:false},
+  {key:'payoffice',       label:'Pay Office',          group:'Dimensions',     editable:false},
+  {key:'payoffice__desc', label:'Pay Office (T)',       group:'Dimensions',     editable:false},
+  {key:'pcard',           label:'P-Card',              group:'Dimensions',     editable:false},
+  {key:'pcard__desc',     label:'P-Card (T)',           group:'Dimensions',     editable:false},
+  {key:'play_activity',   label:'Play Activity',       group:'Dimensions',     editable:false},
+  {key:'play_activity__desc',label:'Play Activity (T)',group:'Dimensions',     editable:false},
+  {key:'play_costc',      label:'Play Cost Centre',    group:'Dimensions',     editable:false},
+  {key:'play_costc__desc',label:'Play Cost Centre (T)',group:'Dimensions',     editable:false},
+  {key:'trantype',        label:'Tran Type',           group:'Dimensions',     editable:false},
+  {key:'trantype__desc',  label:'Tran Type (T)',        group:'Dimensions',     editable:false},
+  {key:'resno',           label:'Resource No',         group:'Resources',      editable:false},
+  {key:'resno__desc',     label:'Resource Name',       group:'Resources',      editable:false},
+  {key:'site',            label:'Site',                group:'Resources',      editable:false},
+  {key:'site__desc',      label:'Site (T)',             group:'Resources',      editable:false},
+  {key:'customAttributeId1',  label:'Free Att 1',      group:'Free Attributes',editable:false},
+  {key:'customAttributeId2',  label:'Free Att 2',      group:'Free Attributes',editable:false},
+  {key:'customAttributeId3',  label:'Free Att 3',      group:'Free Attributes',editable:false},
+  {key:'customAttributeId4',  label:'Free Att 4',      group:'Free Attributes',editable:false},
+  {key:'customAttributeValue1',label:'Free Val 1',     group:'Free Attributes',editable:false},
+  {key:'customAttributeValue2',label:'Free Val 2',     group:'Free Attributes',editable:false},
+  {key:'customAttributeValue3',label:'Free Val 3',     group:'Free Attributes',editable:false},
+  {key:'customAttributeValue4',label:'Free Val 4',     group:'Free Attributes',editable:false},
+];
 
-// ── AUTH ──────────────────────────────────────────────────────────
-async function doLogin() {
-  const user = document.getElementById('inp-user').value.trim();
-  const pass = document.getElementById('inp-pass').value;
-  if (!user || !pass) { showLoginErr('Preenche utilizador e password.'); return; }
+const DEFAULT_COLS = ['version','project','account','account__desc','period','amount','status','activity','costc','currencyCode'];
+const STORAGE_KEY = 'u4dash_cols_v2';
 
-  const btn = document.getElementById('btn-login');
-  btn.disabled = true; btn.textContent = 'Verifying...';
+let auth='', user='';
+let allRows=[], filteredRows=[], origRows={}, changed=new Set();
+let proj='', total=0, page=1;
+const PAGE=50;
+let sCol='', sDir=1;
+let activeCols = (()=>{ try{const s=localStorage.getItem(STORAGE_KEY);if(s)return JSON.parse(s);}catch(e){}return[...DEFAULT_COLS]; })();
+let cAcc=null, cPer=null;
 
-  authHeader = 'Basic ' + btoa(user + ':' + pass);
+function saveCols(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(activeCols));}catch(e){} }
 
-  try {
-    const res = await fetch(API + '/api/auth', { headers: { 'Authorization': authHeader } });
-    const data = await res.json();
-
-    if (!res.ok || data.valid === false) {
-      showLoginErr('Invalid credentials. Please check your username and password.');
-      authHeader = '';
-    } else {
-      currentUser = user;
-      document.getElementById('login-overlay').style.display = 'none';
+async function doLogin(){
+  const u=document.getElementById('inp-user').value.trim();
+  const p=document.getElementById('inp-pass').value;
+  if(!u||!p){showErr('Please enter username and password.');return;}
+  const btn=document.getElementById('btn-login');
+  btn.disabled=true;btn.textContent='Verifying...';
+  auth='Basic '+btoa(u+':'+p);
+  try{
+    const r=await fetch('/api/auth',{headers:{'Authorization':auth}});
+    const d=await r.json();
+    if(!r.ok||d.valid===false){showErr('Invalid credentials. Please check your username and password.');auth='';}
+    else{
+      user=u;
+      document.getElementById('login-overlay').style.display='none';
       document.getElementById('main').classList.add('visible');
-      document.getElementById('user-badge').textContent = user;
-      document.getElementById('user-badge').style.display = 'block';
-      document.getElementById('btn-logout').style.display = 'block';
+      document.getElementById('user-badge').textContent=u;
+      document.getElementById('user-badge').style.display='block';
+      document.getElementById('btn-logout').style.display='block';
     }
-  } catch(e) {
-    showLoginErr('Connection error. Please try again.');
-    authHeader = '';
-  }
-
-  btn.disabled = false; btn.textContent = 'Entrar';
+  }catch(e){showErr('Connection error. Please try again.');auth='';}
+  btn.disabled=false;btn.textContent='Sign in';
 }
-
-function showLoginErr(msg) {
-  const el = document.getElementById('login-err');
-  el.textContent = msg; el.classList.add('show');
-}
-
-function doLogout() {
-  authHeader = ''; currentUser = ''; allRows = []; changedIds = new Set();
-  document.getElementById('login-overlay').style.display = 'flex';
+function showErr(m){const e=document.getElementById('login-err');e.textContent=m;e.classList.add('show');}
+function doLogout(){
+  auth='';user='';allRows=[];filteredRows=[];changed=new Set();
+  document.getElementById('login-overlay').style.display='flex';
   document.getElementById('main').classList.remove('visible');
   document.getElementById('content').classList.add('hidden');
-  document.getElementById('user-badge').style.display = 'none';
-  document.getElementById('btn-logout').style.display = 'none';
+  document.getElementById('user-badge').style.display='none';
+  document.getElementById('btn-logout').style.display='none';
   document.getElementById('login-err').classList.remove('show');
 }
+document.getElementById('inp-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
-
-// ── SEARCH ────────────────────────────────────────────────────────
-async function searchProject() {
-  const proj = document.getElementById('inp-project').value.trim();
-  if (!proj) return;
-
-  currentProject = proj;
-  currentVersion = '';
-  page = 1;
-  changedIds = new Set();
-  originalRows = {};
-
+async function searchProject(){
+  const p=document.getElementById('inp-project').value.trim();
+  if(!p)return;
+  proj=p;page=1;changed=new Set();origRows={};
   document.getElementById('content').classList.add('hidden');
   document.getElementById('loading').classList.remove('hidden');
-  document.getElementById('btn-search').disabled = true;
-
-  try {
-    await loadData();
-  } catch(e) {
-    showToast('Error loading data: ' + e.message, 'error');
-  }
-
+  document.getElementById('btn-search').disabled=true;
+  try{await loadData();}catch(e){toast('Error loading data: '+e.message,'error');}
   document.getElementById('loading').classList.add('hidden');
-  document.getElementById('btn-search').disabled = false;
+  document.getElementById('btn-search').disabled=false;
 }
 
-async function filterByVersion() {
-  currentVersion = document.getElementById('sel-version').value;
-  page = 1;
-  document.getElementById('loading').classList.remove('hidden');
-  document.getElementById('content').classList.add('hidden');
-  await loadData();
-  document.getElementById('loading').classList.add('hidden');
-}
-
-async function loadData() {
-  const body = { project: currentProject, page, pageSize };
-  if (currentVersion) body.version = currentVersion;
-
-  const [resultsRes, countRes] = await Promise.all([
-    fetch(API + '/api/budget', {
-      method: 'POST',
-      headers: { 'Authorization': authHeader, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    }),
-    fetch(API + '/api/budget-count', {
-      method: 'POST',
-      headers: { 'Authorization': authHeader, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ project: currentProject, version: currentVersion || undefined })
-    })
+async function loadData(){
+  const body={project:proj,page,pageSize:PAGE};
+  const [rR,cR]=await Promise.all([
+    fetch('/api/budget',{method:'POST',headers:{'Authorization':auth,'Content-Type':'application/json'},body:JSON.stringify(body)}),
+    fetch('/api/budget-count',{method:'POST',headers:{'Authorization':auth,'Content-Type':'application/json'},body:JSON.stringify({project:proj})})
   ]);
-
-  if (!resultsRes.ok) throw new Error('API ' + resultsRes.status);
-
-  const results = await resultsRes.json();
-  const countData = countRes.ok ? await countRes.json() : null;
-
-  totalRows = countData?.count ?? countData?.value ?? 0;
-  processResults(results);
+  if(!rR.ok)throw new Error('API '+rR.status);
+  const data=await rR.json();
+  const cd=cR.ok?await cR.json():null;
+  total=cd?.count??cd?.value??cd?.resultCount??0;
+  processResults(data);
 }
 
-function processResults(data) {
- if (!data.successful || !data.result) {
-    showToast('No data found for this project.', 'error');
-    return;
-  }
-
-  const fields = data.fields || [];
-  const fieldMap = {};
-  fields.forEach(f => { fieldMap[f.index] = f.publicPath + (f.isDescription ? '__desc' : ''); });
-
-  allRows = (data.result || []).map(row => {
-    const obj = { _id: Math.random().toString(36).slice(2) };
-    const values = Array.isArray(row) ? row : (row.values || row.data || Object.values(row));
-values.forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
+function processResults(data){
+  if(!data.successful||!data.result){toast('No data found for this project.','error');return;}
+  const fields=data.fields||[];
+  const fm={};
+  fields.forEach(f=>{
+    const suffix=f.isDescription?'__desc':'';
+    const raw=f.publicPath.replace(/cat\dExtended\//g,'');
+    fm[f.index]=raw+suffix;
+  });
+  allRows=data.result.map(row=>{
+    const obj={_id:Math.random().toString(36).slice(2)};
+    const vals=Array.isArray(row)?row:(row.values||row.data||Object.values(row));
+    vals.forEach((v,i)=>{obj[fm[i]!==undefined?fm[i]:'f'+i]=v;});
     return obj;
   });
-
-  // save originals for discard
-  allRows.forEach(r => { originalRows[r._id] = { ...r }; });
-
-  // extract versions for filter
-  const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))].sort();
-  const sel = document.getElementById('sel-version');
-  sel.innerHTML = '<option value="">All versions</option>';
-  versions.forEach(v => { sel.innerHTML += `<option value="${v}"${v===currentVersion?' selected':''}>${v}</option>`; });
-  document.getElementById('version-filter').classList.toggle('hidden', versions.length < 2);
-
-  renderHeader();
-  renderStats();
-  renderCharts();
-  renderTable();
-
+  allRows.forEach(r=>{origRows[r._id]={...r};});
+  populateFilters();
+  filteredRows=[...allRows];
+  renderHeader();renderStats();renderCharts();renderTable();
+  document.getElementById('filters-row').classList.remove('hidden');
   document.getElementById('content').classList.remove('hidden');
 }
 
-// ── RENDER ────────────────────────────────────────────────────────
-function renderHeader() {
-  document.getElementById('proj-title').textContent = 'Projecto ' + currentProject;
-  document.getElementById('proj-meta').textContent = currentVersion ? 'Version: ' + currentVersion : 'All versions';
-
-  const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))];
-  const currencies = [...new Set(allRows.map(r => r.currencyCode).filter(Boolean))];
-  let badges = '';
-  if (versions.length) badges += `<span class="badge badge-purple">${versions.length > 1 ? versions.length + ' versões' : versions[0]}</span>`;
-  if (currencies.length) badges += `<span class="badge badge-teal">${currencies[0]}</span>`;
-  document.getElementById('proj-badges').innerHTML = badges;
+function populateFilters(){
+  const pop=(id,key,lbl)=>{
+    const s=document.getElementById(id);
+    const vals=[...new Set(allRows.map(r=>r[key]).filter(Boolean))].sort();
+    s.innerHTML=`<option value="">All ${lbl}</option>`+vals.map(v=>`<option value="${v}">${v}</option>`).join('');
+  };
+  pop('f-version','version','versions');
+  pop('f-account','account','accounts');
+  pop('f-activity','activity','activities');
+  pop('f-costc','costc','cost centres');
+  pop('f-status','status','statuses');
 }
 
-function renderStats() {
-  const amounts = allRows.map(r => parseFloat(r.amount) || 0);
-  const total = amounts.reduce((s, v) => s + v, 0);
-  const positive = amounts.filter(v => v > 0).reduce((s, v) => s + v, 0);
-  const negative = amounts.filter(v => v < 0).reduce((s, v) => s + v, 0);
-  const accounts = new Set(allRows.map(r => r.account).filter(Boolean)).size;
-
-  document.getElementById('stats-grid').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Total linhas</div><div class="stat-value c-purple">${totalRows || allRows.length}</div><div class="stat-sub">página ${page}</div></div>
-    <div class="stat-card"><div class="stat-label">Total budget</div><div class="stat-value c-purple">${fmt(total)}</div><div class="stat-sub">this page</div></div>
-    <div class="stat-card"><div class="stat-label">Receita / entrada</div><div class="stat-value c-teal">${fmt(positive)}</div></div>
-    <div class="stat-card"><div class="stat-label">Custo / saída</div><div class="stat-value c-amber">${fmt(Math.abs(negative))}</div></div>
-    <div class="stat-card"><div class="stat-label">Contas distintas</div><div class="stat-value c-purple">${accounts}</div></div>
-  `;
+function applyFilters(){
+  const v=document.getElementById('f-version').value;
+  const a=document.getElementById('f-account').value;
+  const ac=document.getElementById('f-activity').value;
+  const c=document.getElementById('f-costc').value;
+  const s=document.getElementById('f-status').value;
+  const hasF=v||a||ac||c||s;
+  document.getElementById('btn-clear').style.display=hasF?'block':'none';
+  filteredRows=allRows.filter(r=>
+    (!v||r.version===v)&&(!a||r.account===a)&&(!ac||r.activity===ac)&&(!c||r.costc===c)&&(!s||r.status===s)
+  );
+  page=1;renderStats();renderCharts();renderTable();
 }
 
-function renderCharts() {
-  // by account
-  const byAccount = {};
-  allRows.forEach(r => {
-    const k = (r.account || '?') + (r['account__desc'] ? ' – ' + r['account__desc'] : '');
-    byAccount[k] = (byAccount[k] || 0) + (parseFloat(r.amount) || 0);
-  });
-  const topAccounts = Object.entries(byAccount).sort((a,b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 8);
-
-  if (chartAccounts) chartAccounts.destroy();
-  chartAccounts = new Chart(document.getElementById('chart-accounts'), {
-    type: 'bar',
-    data: {
-      labels: topAccounts.map(([k]) => k.length > 20 ? k.slice(0, 20) + '…' : k),
-      datasets: [{ data: topAccounts.map(([,v]) => Math.round(v)), backgroundColor: '#EEEDFE', borderColor: '#534AB7', borderWidth: 1, borderRadius: 4 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks: { font: { size: 11 } } }, x: { ticks: { font: { size: 10 } } } } }
-  });
-
-  // by period
-  const byPeriod = {};
-  allRows.forEach(r => { const k = r.period || '?'; byPeriod[k] = (byPeriod[k] || 0) + (parseFloat(r.amount) || 0); });
-  const periods = Object.entries(byPeriod).sort((a,b) => String(a[0]).localeCompare(String(b[0])));
-
-  if (chartPeriods) chartPeriods.destroy();
-  chartPeriods = new Chart(document.getElementById('chart-periods'), {
-    type: 'line',
-    data: {
-      labels: periods.map(([k]) => k),
-      datasets: [{ data: periods.map(([,v]) => Math.round(v)), borderColor: '#1D9E75', backgroundColor: '#E1F5EE', borderWidth: 2, pointRadius: 3, fill: true, tension: 0.3 }]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { ticks: { font: { size: 11 } } }, x: { ticks: { font: { size: 11 } } } } }
-  });
+function clearFilters(){
+  ['f-version','f-account','f-activity','f-costc','f-status'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('btn-clear').style.display='none';
+  filteredRows=[...allRows];page=1;renderStats();renderCharts();renderTable();
 }
 
-function renderTable() {
-  const tbody = document.getElementById('table-body');
-  tbody.innerHTML = '';
+function renderHeader(){
+  document.getElementById('proj-title').textContent='Project '+proj;
+  const vers=[...new Set(allRows.map(r=>r.version).filter(Boolean))];
+  const curs=[...new Set(allRows.map(r=>r.currencyCode).filter(Boolean))];
+  document.getElementById('proj-meta').textContent=`${total.toLocaleString()} total lines · ${vers.length} version${vers.length!==1?'s':''}`;
+  let b='';
+  vers.slice(0,3).forEach(v=>b+=`<span class="badge badge-purple">${v}</span>`);
+  curs.slice(0,2).forEach(c=>b+=`<span class="badge badge-teal">${c}</span>`);
+  document.getElementById('proj-badges').innerHTML=b;
+}
 
-  if (!allRows.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="empty">No results found for this project / version.</td></tr>';
-    document.getElementById('row-count').textContent = '';
-    renderPagination();
-    return;
-  }
+function renderStats(){
+  const rows=filteredRows;
+  const amts=rows.map(r=>parseFloat(r.amount)||0);
+  const tot=amts.reduce((s,v)=>s+v,0);
+  const pos=amts.filter(v=>v>0).reduce((s,v)=>s+v,0);
+  const neg=amts.filter(v=>v<0).reduce((s,v)=>s+v,0);
+  const accs=new Set(rows.map(r=>r.account).filter(Boolean)).size;
+  const filt=filteredRows.length!==allRows.length;
+  document.getElementById('stats-grid').innerHTML=`
+    <div class="stat-card"><div class="stat-label">Lines${filt?' (filtered)':''}</div><div class="stat-value c-purple">${rows.length.toLocaleString()}</div>${filt?`<div class="stat-sub">of ${total.toLocaleString()} total</div>`:''}</div>
+    <div class="stat-card"><div class="stat-label">Total Amount</div><div class="stat-value c-purple">${fmt(tot)}</div></div>
+    <div class="stat-card"><div class="stat-label">Inflow</div><div class="stat-value c-teal">${fmt(pos)}</div></div>
+    <div class="stat-card"><div class="stat-label">Outflow</div><div class="stat-value c-amber">${fmt(Math.abs(neg))}</div></div>
+    <div class="stat-card"><div class="stat-label">Accounts</div><div class="stat-value c-purple">${accs}</div></div>`;
+}
 
-  document.getElementById('row-count').textContent = `(${allRows.length} this page${totalRows ? ', ' + totalRows + ' total' : ''})`;
+function renderCharts(){
+  const rows=filteredRows;
+  const byAcc={};
+  rows.forEach(r=>{const k=(r.account||'?')+(r.account__desc?' – '+String(r.account__desc).slice(0,18):'');byAcc[k]=(byAcc[k]||0)+(parseFloat(r.amount)||0);});
+  const topAcc=Object.entries(byAcc).sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,8);
+  if(cAcc)cAcc.destroy();
+  cAcc=new Chart(document.getElementById('chart-accounts'),{type:'bar',data:{labels:topAcc.map(([k])=>k.length>24?k.slice(0,24)+'…':k),datasets:[{data:topAcc.map(([,v])=>Math.round(v)),backgroundColor:'#EEEDFE',borderColor:'#534AB7',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  const byPer={};
+  rows.forEach(r=>{const k=String(r.period||'?');byPer[k]=(byPer[k]||0)+(parseFloat(r.amount)||0);});
+  const pers=Object.entries(byPer).sort((a,b)=>a[0].localeCompare(b[0]));
+  if(cPer)cPer.destroy();
+  cPer=new Chart(document.getElementById('chart-periods'),{type:'line',data:{labels:pers.map(([k])=>k),datasets:[{data:pers.map(([,v])=>Math.round(v)),borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.1)',borderWidth:2,pointRadius:2,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{font:{size:10}}},x:{ticks:{font:{size:10},maxTicksLimit:12}}}}});
+}
 
-  allRows.forEach(row => {
-    const tr = document.createElement('tr');
-    if (changedIds.has(row._id)) tr.classList.add('changed');
-
-    const statusClass = row.status === 'P' ? 's-posted' : row.status === 'D' ? 's-draft' : 's-other';
-    const statusLabel = row.status === 'P' ? 'Posted' : row.status === 'D' ? 'Draft' : row.status || '—';
-    const amount = parseFloat(row.amount) || 0;
-
-    tr.innerHTML = `
-      <td class="td-code">${row.transactionId || '—'}</td>
-      <td class="td-code">${row.account || '—'}</td>
-      <td style="color:var(--text-muted)">${row['account__desc'] || '—'}</td>
-      <td>${row.version || '—'}</td>
-      <td>${row.period || '—'}</td>
-      <td class="td-num td-edit"><input type="number" step="0.01" value="${amount.toFixed(2)}" onchange="markChanged('${row._id}','amount',parseFloat(this.value)||0)" onblur="renderStats()"/></td>
-      <td>${row.currencyCode || '—'}</td>
-      <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
-      <td style="color:var(--text-muted)">${row.updatedBy || '—'}</td>
-    `;
+function renderTable(){
+  const cols=ALL_COLS.filter(c=>activeCols.includes(c.key));
+  document.getElementById('thead-row').innerHTML=cols.map(c=>`<th class="${c.num?'num':''} ${sCol===c.key?(sDir===1?'asc':'desc'):''}" onclick="sortBy('${c.key}')">${c.label}</th>`).join('');
+  let rows=[...filteredRows];
+  if(sCol){rows.sort((a,b)=>{const av=a[sCol]??'',bv=b[sCol]??'';const an=parseFloat(av),bn=parseFloat(bv);if(!isNaN(an)&&!isNaN(bn))return(an-bn)*sDir;return String(av).localeCompare(String(bv))*sDir;});}
+  const start=(page-1)*PAGE,end=Math.min(start+PAGE,rows.length);
+  const pageRows=rows.slice(start,end);
+  document.getElementById('row-count').textContent=`(${rows.length.toLocaleString()} lines${rows.length!==total?' filtered, '+total.toLocaleString()+' total':''})`;
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML='';
+  if(!pageRows.length){tbody.innerHTML=`<tr><td colspan="${cols.length}" class="empty">No results found.</td></tr>`;document.getElementById('pagination').innerHTML='';return;}
+  pageRows.forEach(row=>{
+    const tr=document.createElement('tr');
+    if(changed.has(row._id))tr.classList.add('changed');
+    tr.innerHTML=cols.map(c=>{
+      const v=row[c.key]??'—';
+      if(c.key==='status'){const cls=v==='P'?'s-p':v==='D'?'s-d':'s-other';const lbl=v==='P'?'Posted':v==='D'?'Draft':v;return`<td><span class="status-pill ${cls}">${lbl}</span></td>`;}
+      if(c.editable)return`<td class="td-num td-edit"><input type="number" step="0.01" value="${parseFloat(v)||0}" onchange="markChange('${row._id}','${c.key}',parseFloat(this.value)||0)"/></td>`;
+      if(c.num)return`<td class="td-num">${v!=='—'?fmt(parseFloat(v)):v}</td>`;
+      return`<td title="${v}">${v}</td>`;
+    }).join('');
     tbody.appendChild(tr);
   });
-
-  renderPagination();
+  renderPagination(rows.length);
   updateSaveBtn();
 }
 
-function renderPagination() {
-  const totalPages = Math.ceil(totalRows / pageSize);
-  const pag = document.getElementById('pagination');
-  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+function sortBy(col){if(sCol===col)sDir*=-1;else{sCol=col;sDir=1;}renderTable();}
 
-  const start = (page - 1) * pageSize + 1;
-  const end = Math.min(page * pageSize, totalRows);
-  let html = `<span>Linhas ${start}–${end} de ${totalRows}</span><div class="page-btns">`;
-  html += `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>‹</button>`;
+function renderPagination(tot){
+  const pages=Math.ceil(tot/PAGE);
+  const pag=document.getElementById('pagination');
+  if(pages<=1){pag.innerHTML='';return;}
+  const s=(page-1)*PAGE+1,e=Math.min(page*PAGE,tot);
+  let h=`<span>Lines ${s.toLocaleString()}–${e.toLocaleString()} of ${tot.toLocaleString()}</span><div class="page-btns">`;
+  h+=`<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>‹</button>`;
+  for(let i=1;i<=pages;i++){if(pages>7&&i>2&&i<pages-1&&Math.abs(i-page)>1){if(i===3||i===pages-2)h+='<span style="padding:3px">…</span>';continue;}h+=`<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;}
+  h+=`<button class="page-btn" onclick="goPage(${page+1})" ${page===pages?'disabled':''}>›</button></div>`;
+  pag.innerHTML=h;
+}
+function goPage(n){page=n;renderTable();}
 
-  for (let i = 1; i <= totalPages; i++) {
-    if (totalPages > 7 && i > 2 && i < totalPages - 1 && Math.abs(i - page) > 1) {
-      if (i === 3 || i === totalPages - 2) html += '<span style="padding:4px 2px">…</span>';
-      continue;
-    }
-    html += `<button class="page-btn${i===page?' active':''}" onclick="goPage(${i})">${i}</button>`;
-  }
-
-  html += `<button class="page-btn" onclick="goPage(${page+1})" ${page===totalPages?'disabled':''}>›</button></div>`;
-  pag.innerHTML = html;
+function markChange(id,field,value){const r=allRows.find(r=>r._id===id);if(r){r[field]=value;changed.add(id);}updateSaveBtn();renderStats();}
+function updateSaveBtn(){const n=changed.size;document.getElementById('btn-save').disabled=n===0;document.getElementById('changed-label').textContent=n>0?`${n} line${n>1?'s':''} changed`:'';document.getElementById('changed-label').classList.toggle('hidden',n===0);document.getElementById('btn-discard').classList.toggle('hidden',n===0);}
+function discardChanges(){allRows.forEach(r=>{if(changed.has(r._id))Object.assign(r,origRows[r._id]);});changed=new Set();renderTable();renderStats();toast('Changes discarded.','success');}
+function openSaveModal(){const n=changed.size;document.getElementById('modal-desc').textContent=`You are about to save ${n} changed line${n>1?'s':''} for project ${proj} to Unit4.`;document.getElementById('modal-note').value='';document.getElementById('modal-bg').classList.add('show');}
+function closeSaveModal(){document.getElementById('modal-bg').classList.remove('show');}
+async function confirmSave(){
+  const btn=document.getElementById('btn-confirm-save');
+  btn.disabled=true;btn.textContent='Saving...';
+  const rows=allRows.filter(r=>changed.has(r._id));
+  console.log('SAVE PAYLOAD:',{project:proj,rows});
+  await new Promise(r=>setTimeout(r,600));
+  rows.forEach(r=>{origRows[r._id]={...r};});
+  changed=new Set();closeSaveModal();updateSaveBtn();renderTable();
+  btn.disabled=false;btn.textContent='Confirm and save';
+  toast(`${rows.length} line${rows.length>1?'s':''} saved successfully.`,'success');
 }
 
-async function goPage(n) {
-  page = n;
-  document.getElementById('loading').classList.remove('hidden');
-  document.getElementById('content').classList.add('hidden');
-  await loadData();
-  document.getElementById('loading').classList.add('hidden');
-}
-
-// ── EDIT ──────────────────────────────────────────────────────────
-function markChanged(id, field, value) {
-  const row = allRows.find(r => r._id === id);
-  if (row) { row[field] = value; changedIds.add(id); }
-  updateSaveBtn();
-  renderStats();
-  renderCharts();
-  // highlight row
-  document.querySelectorAll('tbody tr').forEach((tr, i) => {
-    if (allRows[i] && changedIds.has(allRows[i]._id)) tr.classList.add('changed');
+function openColPanel(){buildColList();document.getElementById('col-panel-bg').classList.add('show');document.getElementById('col-search-inp').value='';document.getElementById('col-search-inp').focus();}
+function closeColPanel(){document.getElementById('col-panel-bg').classList.remove('show');}
+function closePanelBg(e){if(e.target===document.getElementById('col-panel-bg'))closeColPanel();}
+function buildColList(){
+  const q=(document.getElementById('col-search-inp').value||'').toLowerCase();
+  const groups=[...new Set(ALL_COLS.map(c=>c.group))];
+  let h='';
+  groups.forEach(g=>{
+    const cols=ALL_COLS.filter(c=>c.group===g&&(!q||c.label.toLowerCase().includes(q)||c.key.toLowerCase().includes(q)));
+    if(!cols.length)return;
+    h+=`<div class="col-group-label">${g}</div>`;
+    cols.forEach(c=>{const on=activeCols.includes(c.key);h+=`<div class="col-item${on?' on':''}" onclick="toggleCol('${c.key}')"><input type="checkbox" ${on?'checked':''} onclick="event.stopPropagation();toggleCol('${c.key}')"/><label>${c.label}</label></div>`;});
   });
+  document.getElementById('col-list').innerHTML=h;
 }
-
-function updateSaveBtn() {
-  const n = changedIds.size;
-  document.getElementById('btn-save').disabled = n === 0;
-  document.getElementById('changed-label').textContent = n > 0 ? `${n} linha${n>1?'s':''} alterada${n>1?'s':''}` : '';
-  document.getElementById('changed-label').classList.toggle('hidden', n === 0);
-  document.getElementById('btn-discard').classList.toggle('hidden', n === 0);
+function toggleCol(key){
+  if(activeCols.includes(key)){if(activeCols.length<=1)return;activeCols=activeCols.filter(k=>k!==key);}
+  else{activeCols.push(key);}
+  saveCols();buildColList();renderTable();
 }
+function setDefaultCols(){activeCols=[...DEFAULT_COLS];saveCols();buildColList();renderTable();}
+function setAllCols(){activeCols=ALL_COLS.map(c=>c.key);saveCols();buildColList();renderTable();}
+function setNoneCols(){activeCols=[ALL_COLS[0].key];saveCols();buildColList();renderTable();}
 
-function discardChanges() {
-  allRows.forEach(r => { if (changedIds.has(r._id)) Object.assign(r, originalRows[r._id]); });
-  changedIds = new Set();
-  renderTable();
-  renderStats();
-  renderCharts();
-  showToast('Changes discarded.', 'success');
-}
-
-// ── SAVE ──────────────────────────────────────────────────────────
-function openSaveModal() {
-  const n = changedIds.size;
-  document.getElementById('modal-desc').textContent =
-    `Vais guardar ${n} linha${n>1?'s':''} alterada${n>1?'s':''} no projecto ${currentProject}. Esta acção envia os dados para o Unit4.`;
-  document.getElementById('modal-note').value = '';
-  document.getElementById('modal-bg').classList.add('show');
-}
-
-function closeSaveModal() {
-  document.getElementById('modal-bg').classList.remove('show');
-}
-
-async function confirmSave() {
-  const btn = document.getElementById('btn-confirm-save');
-  btn.disabled = true; btn.textContent = 'A guardar...';
-
-  const changed = allRows.filter(r => changedIds.has(r._id));
-  const note = document.getElementById('modal-note').value;
-
-  // NOTE: When Planner write API becomes available, replace this block
-  // with a real PUT/POST to the Unit4 Planner Transactions endpoint.
-  // For now, we log the payload that would be sent.
-  console.log('SAVE PAYLOAD:', { project: currentProject, note, rows: changed });
-
-  await new Promise(r => setTimeout(r, 800));
-
-  // Update originals after save
-  changed.forEach(r => { originalRows[r._id] = { ...r }; });
-  changedIds = new Set();
-
-  closeSaveModal();
-  updateSaveBtn();
-  renderTable();
-
-  btn.disabled = false; btn.textContent = 'Confirm and save';
-  showToast(`${changed.length} linha${changed.length>1?'s':''} guardada${changed.length>1?'s':''} com sucesso.`, 'success');
-}
-
-// ── UTILS ─────────────────────────────────────────────────────────
-function fmt(n) {
-  return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
-}
-
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast ' + type + ' show';
-  setTimeout(() => { t.className = 'toast'; }, 3500);
-}
+function fmt(n){return new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';setTimeout(()=>{t.className='toast';},3500);}
 </script>
 </body>
 </html>
