@@ -427,8 +427,7 @@ async function loadData() {
 }
 
 function processResults(data) {
-  alert('keys:' + JSON.stringify(Object.keys(data)) + ' resultCount:' + data.resultCount + ' result length:' + (data.result ? data.result.length : 'null'));
-  if (!data.successful || !data.result) {
+ if (!data.successful || !data.result) {
     showToast('No data found for this project.', 'error');
     return;
   }
