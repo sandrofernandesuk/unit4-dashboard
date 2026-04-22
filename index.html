@@ -427,6 +427,7 @@ async function loadData() {
 }
 
 function processResults(data) {
+  alert(JSON.stringify(data).slice(0, 500));
   if (!data.successful || !data.rows) {
     showToast('No data found for this project.', 'error');
     return;
