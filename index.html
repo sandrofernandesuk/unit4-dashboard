@@ -427,7 +427,7 @@ async function loadData() {
 }
 
 function processResults(data) {
-  alert(JSON.stringify(data).slice(0, 500));
+  alert(JSON.stringify(Object.keys(data)));;
   if (!data.successful || !data.rows) {
     showToast('Sem dados para este projecto.', 'error');
     return;
