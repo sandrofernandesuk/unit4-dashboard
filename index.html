@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Unit4 Budget Dashboard</title>
+<title>Unit4 Budget Dashboard – Planner</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -168,17 +168,17 @@ tr.changed td{background:#FFFBF0!important}
       <div class="logo"><svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="white"/><rect x="9" y="2" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="2" y="9" width="5" height="5" rx="1" fill="white" opacity=".7"/><rect x="9" y="9" width="5" height="5" rx="1" fill="white" opacity=".4"/></svg></div>
       <span>Unit4 Budget Dashboard</span>
     </div>
-    <p class="login-sub">Introduz as credenciais Unit4 para aceder</p>
+    <p class="login-sub">Enter your Unit4 credentials to access</p>
     <div class="field">
-      <label>Utilizador</label>
-      <input id="inp-user" type="text" placeholder="utilizador" autocomplete="username"/>
+      <label>Username</label>
+      <input id="inp-user" type="text" placeholder="username" autocomplete="username"/>
     </div>
     <div class="field">
       <label>Password</label>
       <input id="inp-pass" type="password" placeholder="••••••••" autocomplete="current-password"/>
     </div>
-    <div class="login-err" id="login-err">Credenciais inválidas. Verifica o utilizador e password.</div>
-    <button class="btn-primary" id="btn-login" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="login-err">Invalid credentials. Please check your username and password.</div>
+    <button class="btn-primary" id="btn-login" onclick="doLogin()">Sign in</button>
   </div>
 </div>
 
@@ -191,7 +191,7 @@ tr.changed td{background:#FFFBF0!important}
   </div>
   <div class="topbar-right">
     <span class="user-badge" id="user-badge" style="display:none"></span>
-    <button class="btn-sm" id="btn-logout" style="display:none" onclick="doLogout()">Sair</button>
+    <button class="btn-sm" id="btn-logout" style="display:none" onclick="doLogout()">Sign out</button>
   </div>
 </div>
 
@@ -202,22 +202,22 @@ tr.changed td{background:#FFFBF0!important}
   <div class="search-section">
     <div class="search-row">
       <div class="field">
-        <label>Projecto</label>
+        <label>Project</label>
         <input id="inp-project" type="text" placeholder="ex: 1105131" onkeydown="if(event.key==='Enter')searchProject()"/>
       </div>
-      <button class="btn-search" id="btn-search" onclick="searchProject()">Pesquisar</button>
+      <button class="btn-search" id="btn-search" onclick="searchProject()">Search</button>
     </div>
     <div class="version-filter hidden" id="version-filter">
-      <label>Versão:</label>
+      <label>Version:</label>
       <select id="sel-version" onchange="filterByVersion()">
-        <option value="">Todas as versões</option>
+        <option value="">All versions</option>
       </select>
     </div>
   </div>
 
   <!-- LOADING -->
   <div class="loading hidden" id="loading">
-    <div class="spinner"></div> A carregar dados do projecto...
+    <div class="spinner"></div> Loading project data...
   </div>
 
   <!-- CONTENT -->
@@ -238,11 +238,11 @@ tr.changed td{background:#FFFBF0!important}
     <!-- CHARTS -->
     <div class="charts-row">
       <div class="chart-card">
-        <div class="chart-title">Budget por conta (top 8)</div>
+        <div class="chart-title">Budget by account (top 8)</div>
         <div class="chart-wrap"><canvas id="chart-accounts"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-title">Distribuição por período</div>
+        <div class="chart-title">Distribution by period</div>
         <div class="chart-wrap"><canvas id="chart-periods"></canvas></div>
       </div>
     </div>
@@ -250,26 +250,26 @@ tr.changed td{background:#FFFBF0!important}
     <!-- TABLE -->
     <div class="table-section">
       <div class="table-header">
-        <span class="table-title">Linhas de budget <span id="row-count" style="color:var(--text-muted);font-weight:400"></span></span>
+        <span class="table-title">Budget lines <span id="row-count" style="color:var(--text-muted);font-weight:400"></span></span>
         <div class="table-actions">
           <span class="changed-label hidden" id="changed-label"></span>
-          <button class="btn-discard hidden" id="btn-discard" onclick="discardChanges()">Descartar</button>
-          <button class="btn-save" id="btn-save" onclick="openSaveModal()" disabled>Guardar no Unit4</button>
+          <button class="btn-discard hidden" id="btn-discard" onclick="discardChanges()">Discard</button>
+          <button class="btn-save" id="btn-save" onclick="openSaveModal()" disabled>Save to Unit4</button>
         </div>
       </div>
       <div class="table-scroll">
         <table>
           <thead>
             <tr>
-              <th>Transacção</th>
-              <th>Conta</th>
-              <th>Descrição conta</th>
-              <th>Versão</th>
-              <th>Período</th>
-              <th class="num">Montante</th>
-              <th>Moeda</th>
-              <th>Estado</th>
-              <th>Actualizado por</th>
+              <th>Transaction</th>
+              <th>Account</th>
+              <th>Account description</th>
+              <th>Version</th>
+              <th>Period</th>
+              <th class="num">Amount</th>
+              <th>Currency</th>
+              <th>Status</th>
+              <th>Updated by</th>
             </tr>
           </thead>
           <tbody id="table-body"></tbody>
@@ -284,15 +284,15 @@ tr.changed td{background:#FFFBF0!important}
 <!-- SAVE MODAL -->
 <div class="modal-bg" id="modal-bg">
   <div class="modal">
-    <h3>Confirmar alterações</h3>
+    <h3>Confirm changes</h3>
     <p id="modal-desc">—</p>
     <div>
-      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Nota / motivo (opcional)</label>
-      <textarea id="modal-note" placeholder="ex: Revisão de budget Q2 2024..."></textarea>
+      <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:5px">Note / reason (optional)</label>
+      <textarea id="modal-note" placeholder="e.g. Budget revision Q2 2024..."></textarea>
     </div>
     <div class="modal-actions">
-      <button class="btn-discard" onclick="closeSaveModal()">Cancelar</button>
-      <button class="btn-save" id="btn-confirm-save" onclick="confirmSave()">Confirmar e guardar</button>
+      <button class="btn-discard" onclick="closeSaveModal()">Cancel</button>
+      <button class="btn-save" id="btn-confirm-save" onclick="confirmSave()">Confirm and save</button>
     </div>
   </div>
 </div>
@@ -322,7 +322,7 @@ async function doLogin() {
   if (!user || !pass) { showLoginErr('Preenche utilizador e password.'); return; }
 
   const btn = document.getElementById('btn-login');
-  btn.disabled = true; btn.textContent = 'A verificar...';
+  btn.disabled = true; btn.textContent = 'Verifying...';
 
   authHeader = 'Basic ' + btoa(user + ':' + pass);
 
@@ -331,7 +331,7 @@ async function doLogin() {
     const data = await res.json();
 
     if (!res.ok || data.valid === false) {
-      showLoginErr('Credenciais inválidas. Verifica o utilizador e password.');
+      showLoginErr('Invalid credentials. Please check your username and password.');
       authHeader = '';
     } else {
       currentUser = user;
@@ -342,7 +342,7 @@ async function doLogin() {
       document.getElementById('btn-logout').style.display = 'block';
     }
   } catch(e) {
-    showLoginErr('Erro de ligação. Tenta de novo.');
+    showLoginErr('Connection error. Please try again.');
     authHeader = '';
   }
 
@@ -384,7 +384,7 @@ async function searchProject() {
   try {
     await loadData();
   } catch(e) {
-    showToast('Erro ao carregar dados: ' + e.message, 'error');
+    showToast('Error loading data: ' + e.message, 'error');
   }
 
   document.getElementById('loading').classList.add('hidden');
@@ -427,8 +427,8 @@ async function loadData() {
 }
 
 function processResults(data) {
- if (!data.successful || !data.result) {
-    showToast('Sem dados para este projecto.', 'error');
+  if (!data.successful || !data.rows) {
+    showToast('No data found for this project.', 'error');
     return;
   }
 
@@ -436,10 +436,9 @@ function processResults(data) {
   const fieldMap = {};
   fields.forEach(f => { fieldMap[f.index] = f.publicPath + (f.isDescription ? '__desc' : ''); });
 
-  allRows = (data.result || []).map(row => {
+  allRows = (data.rows || []).map(row => {
     const obj = { _id: Math.random().toString(36).slice(2) };
-    const values = Array.isArray(row) ? row : (row.values || row.data || Object.values(row));
-    values.forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
+    (row.values || row).forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
     return obj;
   });
 
@@ -449,7 +448,7 @@ function processResults(data) {
   // extract versions for filter
   const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))].sort();
   const sel = document.getElementById('sel-version');
-  sel.innerHTML = '<option value="">Todas as versões</option>';
+  sel.innerHTML = '<option value="">All versions</option>';
   versions.forEach(v => { sel.innerHTML += `<option value="${v}"${v===currentVersion?' selected':''}>${v}</option>`; });
   document.getElementById('version-filter').classList.toggle('hidden', versions.length < 2);
 
@@ -464,7 +463,7 @@ function processResults(data) {
 // ── RENDER ────────────────────────────────────────────────────────
 function renderHeader() {
   document.getElementById('proj-title').textContent = 'Projecto ' + currentProject;
-  document.getElementById('proj-meta').textContent = currentVersion ? 'Versão: ' + currentVersion : 'Todas as versões';
+  document.getElementById('proj-meta').textContent = currentVersion ? 'Version: ' + currentVersion : 'All versions';
 
   const versions = [...new Set(allRows.map(r => r.version).filter(Boolean))];
   const currencies = [...new Set(allRows.map(r => r.currencyCode).filter(Boolean))];
@@ -483,7 +482,7 @@ function renderStats() {
 
   document.getElementById('stats-grid').innerHTML = `
     <div class="stat-card"><div class="stat-label">Total linhas</div><div class="stat-value c-purple">${totalRows || allRows.length}</div><div class="stat-sub">página ${page}</div></div>
-    <div class="stat-card"><div class="stat-label">Total budget</div><div class="stat-value c-purple">${fmt(total)}</div><div class="stat-sub">nesta página</div></div>
+    <div class="stat-card"><div class="stat-label">Total budget</div><div class="stat-value c-purple">${fmt(total)}</div><div class="stat-sub">this page</div></div>
     <div class="stat-card"><div class="stat-label">Receita / entrada</div><div class="stat-value c-teal">${fmt(positive)}</div></div>
     <div class="stat-card"><div class="stat-label">Custo / saída</div><div class="stat-value c-amber">${fmt(Math.abs(negative))}</div></div>
     <div class="stat-card"><div class="stat-label">Contas distintas</div><div class="stat-value c-purple">${accounts}</div></div>
@@ -530,20 +529,20 @@ function renderTable() {
   tbody.innerHTML = '';
 
   if (!allRows.length) {
-    tbody.innerHTML = '<tr><td colspan="9" class="empty">Sem resultados para este projecto / versão.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="empty">No results found for this project / version.</td></tr>';
     document.getElementById('row-count').textContent = '';
     renderPagination();
     return;
   }
 
-  document.getElementById('row-count').textContent = `(${allRows.length} nesta página${totalRows ? ', ' + totalRows + ' total' : ''})`;
+  document.getElementById('row-count').textContent = `(${allRows.length} this page${totalRows ? ', ' + totalRows + ' total' : ''})`;
 
   allRows.forEach(row => {
     const tr = document.createElement('tr');
     if (changedIds.has(row._id)) tr.classList.add('changed');
 
     const statusClass = row.status === 'P' ? 's-posted' : row.status === 'D' ? 's-draft' : 's-other';
-    const statusLabel = row.status === 'P' ? 'Lançado' : row.status === 'D' ? 'Rascunho' : row.status || '—';
+    const statusLabel = row.status === 'P' ? 'Posted' : row.status === 'D' ? 'Draft' : row.status || '—';
     const amount = parseFloat(row.amount) || 0;
 
     tr.innerHTML = `
@@ -621,7 +620,7 @@ function discardChanges() {
   renderTable();
   renderStats();
   renderCharts();
-  showToast('Alterações descartadas.', 'success');
+  showToast('Changes discarded.', 'success');
 }
 
 // ── SAVE ──────────────────────────────────────────────────────────
@@ -659,7 +658,7 @@ async function confirmSave() {
   updateSaveBtn();
   renderTable();
 
-  btn.disabled = false; btn.textContent = 'Confirmar e guardar';
+  btn.disabled = false; btn.textContent = 'Confirm and save';
   showToast(`${changed.length} linha${changed.length>1?'s':''} guardada${changed.length>1?'s':''} com sucesso.`, 'success');
 }
 
