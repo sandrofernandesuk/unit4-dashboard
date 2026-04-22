@@ -437,7 +437,7 @@ function processResults(data) {
   const fieldMap = {};
   fields.forEach(f => { fieldMap[f.index] = f.publicPath + (f.isDescription ? '__desc' : ''); });
 
-  allRows = (data.rows || []).map(row => {
+  allRows = (data.result || []).map(row => {
     const obj = { _id: Math.random().toString(36).slice(2) };
     (row.values || row).forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
     return obj;
