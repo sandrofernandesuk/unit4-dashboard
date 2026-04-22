@@ -47,10 +47,13 @@ module.exports = async (req, res) => {
       body: JSON.stringify(filters)
     });
 
-    const raw = await unit4Res.text();
+    const data = await unit4Res.json();
 
-    // Return raw response so we can see exactly what Unit4 sends back
-    res.status(200).json({ status: unit4Res.status, raw: raw });
+    if (!unit4Res.ok) {
+      return res.status(unit4Res.status).json({ error: 'Unit4 API error', detail: data });
+    }
+
+    res.status(200).json(data);
 
   } catch (err) {
     res.status(500).json({ error: 'Proxy error', detail: err.message });
