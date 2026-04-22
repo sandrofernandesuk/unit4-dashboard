@@ -438,7 +438,8 @@ function processResults(data) {
 
   allRows = (data.result || []).map(row => {
     const obj = { _id: Math.random().toString(36).slice(2) };
-    (row.values || row).forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
+    const values = Array.isArray(row) ? row : (row.values || row.data || Object.values(row));
+    values.forEach((val, i) => { obj[fieldMap[i] || 'f' + i] = val; });
     return obj;
   });
 
